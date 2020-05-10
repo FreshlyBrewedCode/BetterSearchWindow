@@ -1,0 +1,18 @@
+{
+    "name": "com.freshlybrewedcode.bettersearchwindow",
+    "version": "1.0.0",
+    "displayName": "Better Search Window",
+    "description": "A simple extension/wrapper to simplify the usage of the UnityEditor.Experimental.GraphView.SearchWindow API.",
+    "unity": "2019.1",
+    "unityRelease": "0b5",
+    "dependencies": {},
+    "keywords": [
+        "search window",
+        "graphview",
+        "editor"
+    ],
+    "author": {
+        "name": "Freshly Brewed Code",
+        "url": "https://github.com/FreshlyBrewedCode"
+    }
+}
