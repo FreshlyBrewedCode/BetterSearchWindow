@@ -37,10 +37,16 @@ namespace BetterSearchWindow
             };
         }
 
-        public virtual void AddLeaf(GUIContent path, T payload)
+        public virtual BetterSearchTree<T> AddLeaf(GUIContent path, T payload)
         {
             this.label = path;
             Append(payload, path.text);
+            return this;
+        }
+
+        public virtual BetterSearchTree<T> AddLeaf(string path, T payload)
+        {
+            return AddLeaf(new GUIContent(path), payload);
         }
         
         protected virtual void Append(T destinationPayload, string path)
