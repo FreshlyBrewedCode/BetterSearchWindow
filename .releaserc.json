@@ -5,7 +5,7 @@
     "@semantic-release/release-notes-generator",                                             
     ["@semantic-release/changelog", { "preset": "angular" }],                                                  
     ["@semantic-release/git", {                                                              
-      "assets": ["Packages/Better Search Window/package.json", "CHANGELOG.md"],                                            
+      "assets": ["Assets/Better Search Window/package.json", "CHANGELOG.md"],                                            
       "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"  
     }],                                                                                      
     "@semantic-release/github"                                                               

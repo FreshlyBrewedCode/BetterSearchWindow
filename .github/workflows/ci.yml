@@ -38,7 +38,7 @@ jobs:
         fi
         git push -f -u origin upm
       env:
-        PKG_ROOT: "Packages/Better Search Window"
+        PKG_ROOT: "Assets/Better Search Window"
     
     - name: Create upm git tag
       if: steps.semantic.outputs.new_release_published == 'true'
