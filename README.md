@@ -3,6 +3,8 @@
 
 A simple extension/wrapper to simplify the usage of the [UnityEditor.Experimental.GraphView.SearchWindow](https://docs.unity3d.com/ScriptReference/Experimental.GraphView.SearchWindow.html) API.
 
+![bettersearchwindow-showcase](https://i.imgur.com/58Og2w5.gif)
+
 ## Usage
 1. Create a new search window class that inherits from `BetterSearchWindow<TWindow, TPayload>`:
 
