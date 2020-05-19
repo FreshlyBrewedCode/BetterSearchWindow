@@ -49,7 +49,7 @@ namespace BetterSearchWindow.Samples
                 .AddLeaf("Hello/Hello There", "Hello there.")
                 .AddLeaf("Test", "This is a test.")
                 .SetIcon("Test", "console.infoicon.sml")
-                .ShowAsAdvancedDropdown(new Rect(300, 30, 200, 0), "Sample Dropdown",
+                .ShowAsAdvancedDropdown(new Rect(300, 30, 200, 0), new Vector2(0, 200), "Sample Dropdown",
                     msg =>
                 {
                     Debug.Log(msg);

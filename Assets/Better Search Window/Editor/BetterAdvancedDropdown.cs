@@ -14,7 +14,17 @@ namespace BetterSearchWindow
             this.root = root;
             this.onItemSelectedCallback = onItemSelectedCallback;
         }
-
+        
+        public BetterAdvancedDropdown(AdvancedDropdownState state,
+            AdvancedDropdownItem<TPayload> root,
+            Action<TPayload> onItemSelectedCallback,
+            Vector2 minSize) : base(state)
+        {
+            this.root = root;
+            this.onItemSelectedCallback = onItemSelectedCallback;
+            this.minimumSize = minSize;
+        }
+        
         protected override AdvancedDropdownItem BuildRoot()
         {
             return root;
@@ -25,10 +35,16 @@ namespace BetterSearchWindow
             var payloadItem = item as AdvancedDropdownItem<TPayload>;
             onItemSelectedCallback?.Invoke(payloadItem.payload);
         }
-
+        
         public static void Show(Rect buttonRect, AdvancedDropdownItem<TPayload> root, Action<TPayload> onItemSelectedCallback)
         {
             new BetterAdvancedDropdown<TPayload>(new AdvancedDropdownState(), root, onItemSelectedCallback)
+                .Show(buttonRect);
+        }
+        
+        public static void Show(Rect buttonRect, Vector2 minSize, AdvancedDropdownItem<TPayload> root, Action<TPayload> onItemSelectedCallback)
+        {
+            new BetterAdvancedDropdown<TPayload>(new AdvancedDropdownState(), root, onItemSelectedCallback, minSize)
                 .Show(buttonRect);
         }
     }

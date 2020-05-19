@@ -210,6 +210,11 @@ namespace BetterSearchWindow
             BetterAdvancedDropdown<T>.Show(buttonRect, ToAdvancedDropdown(rootName), onItemSelectedCallback);
         }
         
+        public void ShowAsAdvancedDropdown(Rect buttonRect, Vector2 minSize, string rootName, Action<T> onItemSelectedCallback)
+        {
+            BetterAdvancedDropdown<T>.Show(buttonRect, minSize,ToAdvancedDropdown(rootName), onItemSelectedCallback);
+        }
+        
         protected virtual void AddAdvancedDropdownChildren(AdvancedDropdownItem<T> parent)
         {
             var item = new AdvancedDropdownItem<T>(label.text);
