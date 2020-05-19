@@ -3,7 +3,11 @@
   "plugins": [                                                                               
     ["@semantic-release/commit-analyzer", { "preset": "angular" }],                          
     "@semantic-release/release-notes-generator",                                             
-    ["@semantic-release/changelog", { "preset": "angular" }],                                                  
+    ["@semantic-release/changelog", { "preset": "angular" }],
+    ["@semantic-release/npm", {
+      "npmPublish": false,
+      "pkgRoot": "Assets/Better Search Window"
+    }],
     ["@semantic-release/git", {                                                              
       "assets": ["Assets/Better Search Window/package.json", "CHANGELOG.md"],                                            
       "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"  
