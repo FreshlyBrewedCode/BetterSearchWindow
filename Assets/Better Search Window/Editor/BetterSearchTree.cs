@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.IMGUI.Controls;
 using UnityEngine;
 
 namespace BetterSearchWindow
@@ -52,31 +55,34 @@ namespace BetterSearchWindow
         protected virtual void Append(T destinationPayload, string path)
         {
             // Trim any whitespaces or slashes to get rid of empty entries
-            path = path.Trim(' ', '/');
-
+            // path = path.Trim(' ', '/');
+            bool isEnd;
+            string name;
+            string nextPath = StepPath(path, out isEnd, out name);
+            
             // Get the position of the first slash, signaling the next entry in the path
-            int nextChildIndex = path.IndexOf('/');
+            // int nextChildIndex = path.IndexOf('/');
 
             // if there is no slash it means we have reached the end of the path so we just add the payload
-            if (nextChildIndex < 0)
+            if (isEnd)
             {
-                children.Add(new BetterSearchTree<T>(InheritLabel(path), destinationPayload));
+                children.Add(new BetterSearchTree<T>(InheritLabel(name), destinationPayload));
                 return;
             }
 
             // Get the name of first entry in the current path
-            string childName = path.Substring(0, nextChildIndex);
+            // string childName = path.Substring(0, nextChildIndex);
 
             // try to get the child entry or create a new one with that name
-            var child = GetChild(childName);
+            var child = GetChild(name);
             if (child == null)
             {
-                child = new BetterSearchTree<T>(InheritLabel(childName));
+                child = new BetterSearchTree<T>(InheritLabel(name));
                 children.Add(child);
             }
 
             // Recursively append the remaining entries
-            child.Append(destinationPayload, path.Substring(nextChildIndex + 1));
+            child.Append(destinationPayload, nextPath);
         }
 
         // Insert (or merge) another tree as a child into this one
@@ -114,6 +120,35 @@ namespace BetterSearchWindow
         public BetterSearchTree<T> GetChild(string name)
         {
             return children.FirstOrDefault(c => c.label.text == name);
+        }
+
+        public BetterSearchTree<T> GetNestedChild(string path)
+        {
+            bool isEnd;
+            string name;
+            string nextPath = StepPath(path, out isEnd, out name);
+            var child = GetChild(name);
+            if (child == null) return null;
+
+            if (isEnd) return child;
+            return child.GetNestedChild(nextPath);
+        }
+
+        public virtual BetterSearchTree<T> SetIcon(string path, Texture2D icon)
+        {
+            var item = GetNestedChild(path);
+            if (item != null) item.label.image = icon;
+            return this;
+        }
+        
+        public virtual BetterSearchTree<T> SetIcon(string path, string icon)
+        {
+            return SetIcon(path, GetIcon(icon));
+        }
+
+        protected virtual Texture2D GetIcon(string iconName)
+        {
+            return EditorGUIUtility.IconContent(iconName).image as Texture2D;
         }
         
         /// <summary>
@@ -158,6 +193,62 @@ namespace BetterSearchWindow
                     AddTreeEntry(entries, child, level + 1);
                 }
             }
+        }
+
+        public virtual AdvancedDropdownItem<T> ToAdvancedDropdown(string rootName)
+        {
+            var root = new AdvancedDropdownItem<T>(rootName);
+            foreach (var child in children)
+            {
+                child.AddAdvancedDropdownChildren(root);
+            }
+            return root;
+        }
+
+        public void ShowAsAdvancedDropdown(Rect buttonRect, string rootName, Action<T> onItemSelectedCallback)
+        {
+            BetterAdvancedDropdown<T>.Show(buttonRect, ToAdvancedDropdown(rootName), onItemSelectedCallback);
+        }
+        
+        protected virtual void AddAdvancedDropdownChildren(AdvancedDropdownItem<T> parent)
+        {
+            var item = new AdvancedDropdownItem<T>(label.text);
+
+            if (IsLeaf)
+            {
+                item.icon = label.image as Texture2D;
+                item.payload = payload;
+                parent.AddChild(item);
+                return;
+            }
+            
+            foreach (var child in children)
+            {
+                child.AddAdvancedDropdownChildren(item);
+            }
+            parent.AddChild(item);
+        }
+
+        protected string StepPath(string path, out bool isEnd, out string name)
+        {
+            // Trim any whitespaces or slashes to get rid of empty entries
+            path = path.Trim(' ', '/');
+
+            // Get the position of the first slash, signaling the next entry in the path
+            int nextChildIndex = path.IndexOf('/');
+
+            // if there is no slash it means we have reached the end of the path
+            if (nextChildIndex < 0)
+            {
+                isEnd = true;
+                name = path;
+                return string.Empty;
+            }
+
+            // Get the name of first entry in the current path
+            name = path.Substring(0, nextChildIndex);
+            isEnd = false;
+            return path.Substring(nextChildIndex + 1);
         }
     }
 }

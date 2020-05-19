@@ -25,16 +25,35 @@ namespace BetterSearchWindow.Samples
                 // which is just the window title displayed at the root of the search window
                 .ToSearchTreeEntries("Sample Window");
         }
-
+        
+        // The callback that you get when a leaf entry is selected from the search window
+        // alongside the payload of the entry.
+        private static void MyItemSelectedCallback(string payload)
+        {
+            Debug.Log(payload);
+        }
+        
         [MenuItem("Better Search Window/Open Sample Window")]
         public static void OpenSampleSearchWindow()
         {
             // Simply open the window using the static method Show while providing a onItemSelectedCallback
             // and the position for the window.
-            Show((msg) =>
-            {
-                Debug.Log(msg);
-            }, new Vector2(300, 30));
+            Show(MyItemSelectedCallback, new Vector2(300, 30));
+        }
+
+        [MenuItem("Better Search Window/Open Advanced Dropwdown Sample")]
+        public static void OpenAdvancedDropdownSample()
+        {
+            new BetterSearchTree<string>()
+                .AddLeaf("Hello/Hello World", "Hello World!")
+                .AddLeaf("Hello/Hello There", "Hello there.")
+                .AddLeaf("Test", "This is a test.")
+                .SetIcon("Test", "console.infoicon.sml")
+                .ShowAsAdvancedDropdown(new Rect(300, 30, 200, 0), "Sample Dropdown",
+                    msg =>
+                {
+                    Debug.Log(msg);
+                });
         }
     }
 }
