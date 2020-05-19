@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/FreshlyBrewedCode/BetterSearchWindow/compare/v1.1.0...v1.1.1) (2020-05-19)
+
+
+### Bug Fixes
+
+* version in package.json ([a2b202b](https://github.com/FreshlyBrewedCode/BetterSearchWindow/commit/a2b202bcb802072f7b67f18de9bed22a98d3f3c0))
+
 # [1.1.0](https://github.com/FreshlyBrewedCode/BetterSearchWindow/compare/v1.0.0...v1.1.0) (2020-05-19)
 
 
