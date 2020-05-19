@@ -40,6 +40,21 @@ namespace BetterSearchWindow.Samples
             // and the position for the window.
             Show(MyItemSelectedCallback, new Vector2(300, 30));
         }
+
+        [MenuItem("Better Search Window/Open Advanced Dropwdown Sample")]
+        public static void OpenAdvancedDropdownSample()
+        {
+            new BetterSearchTree<string>()
+                .AddLeaf("Hello/Hello World", "Hello World!")
+                .AddLeaf("Hello/Hello There", "Hello there.")
+                .AddLeaf("Test", "This is a test.")
+                .SetIcon("Test", "console.infoicon.sml")
+                .ShowAsAdvancedDropdown(new Rect(300, 30, 200, 0), "Sample Dropdown",
+                    msg =>
+                {
+                    Debug.Log(msg);
+                });
+        }
     }
 }
 
